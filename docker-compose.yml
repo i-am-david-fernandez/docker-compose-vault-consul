@@ -1,0 +1,40 @@
+## ======== ======== ======== ======== ======== ======== ======== ========
+##
+## <DF> Based on official images:
+##      - Consul: https://hub.docker.com/_/consul/
+##      - Vault: https://hub.docker.com/_/vault/
+
+## ======== ======== ======== ======== ======== ======== ======== ========
+## Consul
+consul:
+  image: consul
+  ## <DF> Set this as required.
+  ##restart: always
+
+  ports:
+    - "8500:8500"
+
+  volumes:
+    ## Host-persistent configuration data
+    - ./config/consul:/consul/config
+
+  command: "agent -ui"
+
+## ======== ======== ======== ======== ======== ======== ======== ========
+## Vault
+vault:
+  image: vault
+  ## <DF> Set this as required.
+  ##restart: always
+
+  ports:
+    - "8200:8200"
+
+  volumes:
+    ## Host-persistent configuration data
+    - ./config/vault:/vault/config
+
+  command: "server"
+
+  links:
+    - consul
