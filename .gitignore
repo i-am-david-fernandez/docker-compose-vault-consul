@@ -1,4 +1,4 @@
 *~
 .emacs.desktop*
-vault.keys
-vault.token
+vault.cfg
+

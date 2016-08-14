@@ -9,7 +9,6 @@ listener "tcp" {
 
 backend "consul" {
   address = "consul:8500"
-#  advertise_addr = "consul:8300"
   scheme = "http"
 }
 
