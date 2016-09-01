@@ -2,16 +2,16 @@
 
 set -e
 
-vault_port="8200"
-vault_addr="http://127.0.0.1:$vault_port"
-
-#export VAULT_ADDR=$vault_addr
-
+echo "Removing existing containers and config..."
 rm -f vault.cfg
 docker-compose kill
 docker-compose rm --force
 
-pattern_vault="Creating (vaultconsul_vault_[0-9]*)"
+vault_port="8200"
+vault_addr="http://127.0.0.1:$vault_port"
+
+echo "Creating new containers..."
+pattern_vault="Creating (.*_vault_[0-9]*)"
 IFS_org=$IFS
 IFS=$'\n'
 for line in `docker-compose up -d 2>&1`
@@ -30,6 +30,7 @@ vault_bin="docker run -e VAULT_ADDR=http://vault:$vault_port --link=${vault_cont
 echo "vault_bin=\"$vault_bin\"" >> vault.cfg
 
 ## Wait for services to settle
+echo "Waiting for services to settle..."
 sleep 4
 
 vault_unseal_keys=""
