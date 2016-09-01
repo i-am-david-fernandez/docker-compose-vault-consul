@@ -7,6 +7,11 @@ rm -f vault.cfg
 docker-compose kill
 docker-compose rm --force
 
+echo "Removing existing data..."
+sudo rm -rf data
+mkdir -p data/consul
+chmod ugo+rwX data/consul
+
 vault_port="8200"
 vault_addr="http://127.0.0.1:$vault_port"
 
@@ -31,6 +36,7 @@ echo "vault_bin=\"$vault_bin\"" >> vault.cfg
 
 ## Wait for services to settle
 echo "Waiting for services to settle..."
+docker-compose logs
 sleep 4
 
 vault_unseal_keys=""
