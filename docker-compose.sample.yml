@@ -17,6 +17,8 @@ consul:
   volumes:
     ## Host-persistent configuration data
     - ./config/consul:/consul/config
+    ## (Optional) host-persistent file-backed data
+    - ./data/consul:/consul/data
 
   command: "agent -ui"
 

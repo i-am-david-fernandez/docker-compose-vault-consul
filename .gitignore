@@ -2,3 +2,5 @@
 .emacs.desktop*
 vault.cfg
 docker-compose.yml
+## Ignore host-persistent data
+/data/
