@@ -4,6 +4,7 @@ set -e
 
 echo "Removing existing containers and config..."
 rm -f vault.cfg
+rm -f tokens.cfg
 docker-compose kill
 docker-compose rm --force
 
@@ -11,9 +12,6 @@ echo "Removing existing data..."
 sudo rm -rf data
 mkdir -p data/consul
 chmod ugo+rwX data/consul
-
-vault_port="8200"
-vault_addr="http://127.0.0.1:$vault_port"
 
 echo "Creating new containers..."
 pattern_vault="Creating (.*_vault_[0-9]*)"
@@ -30,8 +28,13 @@ do
 done
 IFS=$IFS_org
 
+vault_container_port="8200"
+vault_host_port=`docker-compose ps | grep $vault_container | sed -e "s/.*:\\(.*\\)->$vault_container_port.*/\\1/g"`
+vault_host_addr="http://127.0.0.1:$vault_host_port"
+echo "vault_host_addr=$vault_host_addr" >> vault.cfg
+
 #vault_bin=`which vault`
-vault_bin="docker run -e VAULT_ADDR=http://vault:$vault_port --link=${vault_container}:vault --rm vault"
+vault_bin="docker run -e VAULT_ADDR=http://vault:$vault_container_port --link=${vault_container}:vault --rm vault"
 echo "vault_bin=\"$vault_bin\"" >> vault.cfg
 
 ## Wait for services to settle
