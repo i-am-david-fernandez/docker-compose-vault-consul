@@ -5,3 +5,4 @@ tokens.cfg
 docker-compose.yml
 ## Ignore host-persistent data
 /data/
+/site/
