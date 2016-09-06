@@ -2,8 +2,7 @@
 
 source vault.cfg
 
-vault_port=${PORT:-"8200"}
-vault_addr="http://127.0.0.1:$vault_port"
+export VAULT_ADDR=$vault_host_addr
 
 if which vault > /dev/null
 then
@@ -23,12 +22,12 @@ then
         -H "Content-Type: application/json" \
         -X POST \
         -d '{"value":"bongo"}' \
-        $vault_addr/v1/secret/mongo
+        $vault_host_addr/v1/secret/mongo
 
     curl \
         -H "X-Vault-Token: $vault_root_token" \
         -X GET \
-        $vault_addr/v1/secret/mongo
+        $vault_host_addr/v1/secret/mongo
 else
     echo "Curl binary not found; cannot test via HTTP API."
 fi
