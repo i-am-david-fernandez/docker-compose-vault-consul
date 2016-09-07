@@ -1,4 +1,4 @@
-# vault-consul-in-docker
+# docker-compose-vault-consul
 
 A simple docker-compose setup for a Consul-backed Vault instance, heavily inspired by and modified from a similar setup by [voxxit](https://gist.github.com/voxxit/dd6f95398c1bdc9f1038).
 
