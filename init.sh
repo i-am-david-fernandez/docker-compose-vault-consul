@@ -2,9 +2,12 @@
 
 set -e
 
+vault_config="site/vault.cfg"
+token_config="site/tokens.cfg"
+
 echo "Removing existing containers and config..."
-rm -f vault.cfg
-rm -f tokens.cfg
+rm -f $vault_config
+rm -f $token_config
 docker-compose kill
 docker-compose rm --force
 
@@ -23,7 +26,7 @@ do
     if [[ $line =~ $pattern_vault ]]
     then
         vault_container="${BASH_REMATCH[1]}"
-        echo "vault_container=$vault_container" >> vault.cfg
+        echo "vault_container=$vault_container" >> $vault_config
     fi
 done
 IFS=$IFS_org
@@ -31,11 +34,11 @@ IFS=$IFS_org
 vault_container_port="8200"
 vault_host_port=`docker-compose ps | grep $vault_container | sed -e "s/.*:\\(.*\\)->$vault_container_port.*/\\1/g"`
 vault_host_addr="http://127.0.0.1:$vault_host_port"
-echo "vault_host_addr=$vault_host_addr" >> vault.cfg
+echo "vault_host_addr=$vault_host_addr" >> $vault_config
 
 #vault_bin=`which vault`
 vault_bin="docker run -e VAULT_ADDR=http://vault:$vault_container_port --link=${vault_container}:vault --rm vault"
-echo "vault_bin=\"$vault_bin\"" >> vault.cfg
+echo "vault_bin=\"$vault_bin\"" >> $vault_config
 
 ## Wait for services to settle
 echo "Waiting for services to settle..."
@@ -67,12 +70,12 @@ do
         key="${BASH_REMATCH[2]}"
         vault_unseal_keys="$vault_unseal_keys $key"
         echo "Key: [$key]"
-        echo "vault_unseal_key_$i=$key" >> vault.cfg
+        echo "vault_unseal_key_$i=$key" >> $vault_config
     elif [[ $line =~ $pattern_token ]]
     then
         vault_root_token="${BASH_REMATCH[1]}"
         echo "Token: [$vault_root_token]"
-        echo "vault_root_token=$vault_root_token" >> vault.cfg
+        echo "vault_root_token=$vault_root_token" >> $vault_config
     fi
 done
 IFS=$IFS_org

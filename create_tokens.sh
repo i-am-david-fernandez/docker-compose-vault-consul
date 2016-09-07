@@ -1,6 +1,9 @@
 #!/bin/bash
 
-source vault.cfg
+vault_config="site/vault.cfg"
+token_config="site/tokens.cfg"
+
+source $vault_config
 
 export VAULT_ADDR=$vault_host_addr
 
@@ -27,7 +30,7 @@ then
             then
                 label=`echo $line | awk '{ print $1 }'`
                 value=`echo $line | awk '{ print $2 }'`
-                echo "${token_name}_$label=\"$value\"" >> tokens.cfg
+                echo "${token_name}_$label=\"$value\"" >> $token_config
             fi
 
         done

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source vault.cfg
+vault_config="site/vault.cfg"
+source $vault_config
 
 export VAULT_ADDR=$vault_host_addr
 
