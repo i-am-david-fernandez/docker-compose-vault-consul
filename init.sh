@@ -89,9 +89,3 @@ do
     fi
 done
 IFS=$IFS_org
-
-## Unseal the vault
-for key in $vault_unseal_keys
-do
-    $vault_bin unseal $key
-done
