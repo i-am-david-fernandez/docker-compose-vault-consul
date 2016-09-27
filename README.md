@@ -28,9 +28,10 @@ Using the data stored in the site configuration (generated above), this script w
 
 Again, using the data stored in the site configuration, this script will create one or more access tokens with names as supplied on the command-line. e.g., `create_tokens.sh foo bar` will create a token named `foo` and a second named `bar`. Token details will be stored in a site configuration file (`tokens.cfg`). As above, note the security implications of using this script.
 
-## `populate.py`
+### `populate.py`
 
 This script will read a set of secrets from a site JSON file (`secrets.json`) and populate the vault with the content (again using the site configuration where required). The JSON file is expected to be of the following general form:
+
 ```
 {
     "<category 1>": {
@@ -43,7 +44,8 @@ This script will read a set of secrets from a site JSON file (`secrets.json`) an
             "<key 2>" : "<value 2>"
         }
     }
-}```
+}
+```
 
 This will create a top-level node `category 1` with two keyed values and a second top-level node `category 2`, containing a sub-node `subcategory a` which contains two (independent) keyed values. There is no restriction on how many levels deep one may use, nor how many nodes or keyed values may be created.
 
